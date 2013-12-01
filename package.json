@@ -1,0 +1,30 @@
+{
+  "name": "irc-message",
+  "version": "0.1.0",
+  "description": "A blazing fast parser for IRC messages.",
+  "main": "index.js",
+  "scripts": {
+    "prepublish": "coffee --bare --compile lib/*.coffee && coffee --bare --compile test/*.coffee"
+    "build": "coffee --bare --compile lib/*.coffee && coffee --bare --compile test/*.coffee"
+    "test": "vows --spec test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/expr/irc-message.git"
+  },
+  "devDependencies": {
+    "vows": "0.7.x"
+  }.
+  "keywords": [
+    "irc",
+    "message",
+    "parser",
+    "chat"
+  ],
+  "author": "Fionn Kelleher <me@fionn.co>",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/expr/irc-message/issues"
+  },
+  "homepage": "https://github.com/expr/irc-message"
+}

@@ -1,7 +1,5 @@
 # irc-message
-A crazy-fast IRC message parser for node.
-
----
+> A blazing fast parser for IRC messages.
 
 ## What is it?
 
