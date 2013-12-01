@@ -4,8 +4,8 @@
   "description": "A blazing fast parser for IRC messages.",
   "main": "index.js",
   "scripts": {
-    "prepublish": "coffee --bare --compile lib/*.coffee && coffee --bare --compile test/*.coffee"
-    "build": "coffee --bare --compile lib/*.coffee && coffee --bare --compile test/*.coffee"
+    "prepublish": "coffee --bare --compile lib/*.coffee && coffee --bare --compile test/*.coffee",
+    "build": "coffee --bare --compile lib/*.coffee && coffee --bare --compile test/*.coffee",
     "test": "vows --spec test/*"
   },
   "repository": {
@@ -14,7 +14,7 @@
   },
   "devDependencies": {
     "vows": "0.7.x"
-  }.
+  },
   "keywords": [
     "irc",
     "message",
