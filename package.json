@@ -1,6 +1,6 @@
 {
   "name": "irc-message",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A blazing fast parser for IRC messages.",
   "main": "index.js",
   "scripts": {
