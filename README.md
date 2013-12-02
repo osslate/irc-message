@@ -42,6 +42,22 @@ parsed = new Message(str);
 console.log "#{parsed.command} to #{message.args[0]}: #{message.args[1]}"
 ```
 
+## Utilities
+
+### Message#parseHostmask()
+
+Parses the hostmask, return an object with the nickname, username, and hostname of the hostmask.
+
+```JavaScript
+var Message = require("irc-message");
+var str = ":jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message";
+
+var parsed = Message(str);
+var hostmask = parsed.parseHostmask();
+
+console.log(hostmask.nickname + "!" + hostmask.username + "@" + hostmask.hostname);
+```
+
 ## Credit
 
 **Jon Portnoy** (avenj) for his own [IRC parser in Perl](http://metacpan.org/release/POE-Filter-IRCv3). His original implementation and assistance has been invaluable.
