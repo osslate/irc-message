@@ -13,10 +13,10 @@ class Message
     position = 0
     nextspace = 0
 
-    if line[0] is "@"
+    if line.charAt(0) is "@"
       nextspace = line.indexOf " "
       throw new Error "Expected prefix; malformed IRC message." if nextspace is -1
-      rawTags = line.substring(1, nextspace).split ";"
+      rawTags = line.slice(1, nextspace).split ";"
 
       for tag in rawTags
         pair = tag.split "="
@@ -29,7 +29,7 @@ class Message
     if line.charAt(position) is ":"
       nextspace = line.indexOf " ", position
       throw new Error "Expected command; malformed IRC message." if nextspace is -1
-      @prefix = line.substring position + 1, nextspace
+      @prefix = line.slice position + 1, nextspace
       position = nextspace + 1
       position++ while line.charAt(position) is " "
 
@@ -37,10 +37,10 @@ class Message
 
     if nextspace is -1
       if line.length > position
-        @command = line.substring(position).toUpperCase()
+        @command = line.slice(position)
       else return
 
-    @command = line.substring(position, nextspace).toUpperCase()
+    @command = line.slice(position, nextspace).toUpperCase()
 
     position = nextspace + 1
     position++ while line.charAt(position) is " "
@@ -48,17 +48,17 @@ class Message
     while position < line.length
       nextspace = line.indexOf " ", position
       if line.charAt(position) is ":"
-        @args.push line.substring position + 1
+        @args.push line.slice position + 1
         break
 
       if nextspace isnt -1
-        @args.push line.substring position, nextspace
+        @args.push line.slice position, nextspace
         position = nextspace + 1
         position++ while line.charAt(position) is " "
         continue
 
       if nextspace is -1
-        @args.push line.substring position
+        @args.push line.slice position
         break
     return
 
