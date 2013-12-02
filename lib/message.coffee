@@ -40,7 +40,7 @@ class Message
         @command = line.slice(position)
       else return
 
-    @command = line.slice(position, nextspace).toUpperCase()
+    @command = line.slice(position, nextspace)
 
     position = nextspace + 1
     position++ while line.charAt(position) is " "
