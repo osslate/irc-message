@@ -90,7 +90,7 @@ class Message
 
   prefixIsUserHostmask: -> (@prefix.indexOf("@") isnt -1 and @prefix.indexOf("!") isnt -1)
   prefixIsServerHostname: -> (@prefix.indexOf("@") is -1 and @prefix.indexOf("!") is -1 and @prefix.indexOf(".") isnt -1)
-  parseHostmask: ->
+  parseHostmaskFromPrefix: ->
     [nickname, username, hostname] = @prefix.split /[!@]/
     parsed =
       nickname: nickname

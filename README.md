@@ -8,7 +8,7 @@ irc-message is a blazing fast parser for [IRC messages](http://tools.ietf.org/ht
 irc-message is designed with performance in mind. IRC is a real-time protocol. As such, it's important IRC data is dealt with and used as quickly as possible. As a result:
 
 - irc-message's parsing method makes no use of regular expressions.
-- irc-message only provides the data it's delegated with handling. It parses raw IRC messages in accordance with [the specification in RFC1459](http://tools.ietf.org/html/rfc2812#section-2.3.1).
+- irc-message only provides the data it's delegated with handling. It parses raw IRC messages similarly to [the specification in RFC1459](http://tools.ietf.org/html/rfc2812#section-2.3.1).
 - There are very little calls to String.split(). irc-message's parser goes through each part of the IRC message, character by character.
 
 When a Message object is created, it contains the following properties:
@@ -35,18 +35,14 @@ console.log(parsed.command + " to " + message.params[0] + ": " + message.params[
 
 ## Utilities
 
-### #parseHostmask()
+### #parseHostmaskFromPrefix()
 
-Parses the hostmask, return an object with the nickname, username, and hostname of the hostmask.
+Parses the hostmask; returns an object with the nickname, username, and hostname of the hostmask.
 
 ```JavaScript
-var Message = require("irc-message");
-var str = ":jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message";
+new Message("jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message").parseHostmask();
 
-var parsed = Message(str);
-var hostmask = parsed.parseHostmask();
-
-console.log(hostmask.nickname + "!" + hostmask.username + "@" + hostmask.hostname);
+console.log(JSON.stringify(hostmask));
 ```
 
 ## Credit
