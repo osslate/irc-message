@@ -33,15 +33,6 @@ var parsed = new Message(str);
 console.log(parsed.command + " to " + message.params[0] + ": " + message.params[1]);
 ```
 
-```CoffeeScript
-Message = require "irc-message"
-
-str = "@time=2013-06-30T23:59:60.419Z :jamie!jamie@127.0.0.1 PRIVMSG #Node.js :Hello! I was just  browsing for Node.js help, found this channel."
-
-parsed = new Message(str);
-console.log "#{parsed.command} to #{message.params[0]}: #{message.params[1]}"
-```
-
 ## Utilities
 
 ### #parseHostmask()
