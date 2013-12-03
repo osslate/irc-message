@@ -1,4 +1,4 @@
-# irc-message
+# irc-message [![Build Status](https://travis-ci.org/expr/irc-message.png)](https://travis-ci.org/expr/irc-message)
 > A blazing fast parser for IRC messages.
 
 ## What is it?
