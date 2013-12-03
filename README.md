@@ -27,19 +27,41 @@ When a Message object is created, it contains the following properties:
 ```JavaScript
 var Message = require("irc-message");
 
-var str = "@time=2013-06-30T23:59:60.419Z :jamie!jamie@127.0.0.1 PRIVMSG #Node.js :Hello! I was just  browsing for Node.js help, found this channel.";
+var parsed = new Message(@time=2013-06-30T23:59:60.419Z :jamie!jamie@127.0.0.1 PRIVMSG #Node.js :Hello! I was just  browsing for Node.js help, found this channel.");
 
-var parsed = new Message(str);
-console.log(parsed.command + " to " + message.params[0] + ": " + message.params[1]);
+// {
+//   tags: {
+//     time: "2013-06-30T23:59:60.419Z"
+//   },
+//   prefix: "jamie!jamie@127.0.0.1",
+//   command: "PRIVMSG",
+//   params: ["#Node.js", "Hello! I was just  browsing for Node.js help, found this channel."]
+// }
+
+console.log(JSON.stringify(parsed));
 ```
 
 ## Utilities
+
+### #toString()
+
+Converts an irc-message object to a string of IRC data (minus CRLF) suitable to be streamed/sent to an IRC server.
+
+```JavaScript
+var Message = require("irc-message");
+
+var message = new Message(":jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message");
+
+console.log(message.toString()); // :jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message
+```
 
 ### #prefixIsHostmask()
 
 Returns `true` if the prefix of the message is a hostmask.
 
 ```JavaScript
+var Message = require("irc-message");
+
 var message1 = new Message(":jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message");
 var message2 = new Message(":test.services. PRIVMSG #Node.js :A message");
 
@@ -52,8 +74,10 @@ console.log(message2.prefixIsHostmask());
 Returns `true` if the prefix of the message is a server.
 
 ```JavaScript
+var Message = require("irc-message");
+
 var message1 = new Message(":jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message");
-var message2 = new Message(":test.services. PRIVMSG #Node.js :A message");
+var message2 = new Message(":test.services. PRIVMSG jamie :This is test.services. speaking!");
 
 console.log(message1.prefixIsServer());
 console.log(message2.prefixIsServer());
@@ -64,6 +88,8 @@ console.log(message2.prefixIsServer());
 Parses the hostmask from the message prefix. Object returned will contain keys for `nickname`, `username` and `hostname`.
 
 ```JavaScript
+var Message = require("irc-message");
+
 var message = new Message(":jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message");
 var hostmask = message.parseHostmaskFromPrefix();
 
