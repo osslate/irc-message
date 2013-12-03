@@ -13,7 +13,8 @@
     "url": "https://github.com/expr/irc-message.git"
   },
   "devDependencies": {
-    "vows": "0.7.x"
+    "vows": "0.7.x",
+    "coffee-script": "1.6.3"
   },
   "keywords": [
     "irc",
