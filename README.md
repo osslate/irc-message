@@ -29,16 +29,18 @@ var Message = require("irc-message");
 
 var parsed = new Message(@time=2013-06-30T23:59:60.419Z :jamie!jamie@127.0.0.1 PRIVMSG #Node.js :Hello! I was just  browsing for Node.js help, found this channel.");
 
-// {
-//   tags: {
-//     time: "2013-06-30T23:59:60.419Z"
-//   },
-//   prefix: "jamie!jamie@127.0.0.1",
-//   command: "PRIVMSG",
-//   params: ["#Node.js", "Hello! I was just  browsing for Node.js help, found this channel."]
-// }
-
 console.log(JSON.stringify(parsed));
+```
+
+```JSON
+{
+    "tags": {
+        "time": "2013-06-30T23:59:60.419Z"
+    },
+    "prefix": "jamie!jamie@127.0.0.1",
+    "command": "PRIVMSG",
+    "params": ["#Node.js", "Hello! I was just  browsing for Node.js help, found this channel."]
+}
 ```
 
 ## Utilities
