@@ -2,7 +2,7 @@ Message = require "../"
 vows = require "vows"
 assert = require "assert"
 
-vows.describe("irc-message parser").addBatch(
+vows.describe("irc-message #toString()").addBatch(
   "A parsed message":
     "representing a PRIVMSG":
       topic: new Message ":expr!textual@213.233.jgs.m PRIVMSG #launch :JeffA: go ahead and do another multi line message"
@@ -19,4 +19,4 @@ vows.describe("irc-message parser").addBatch(
       "has a second parameter of JeffA: go ahead and do another multi line message": (topic) ->
         assert.equal topic.params[1], "JeffA: go ahead and do another multi line message"
 
-).export module
+).export(module)
