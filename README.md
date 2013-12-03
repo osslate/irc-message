@@ -35,12 +35,37 @@ console.log(parsed.command + " to " + message.params[0] + ": " + message.params[
 
 ## Utilities
 
-### #parseHostmaskFromPrefix()
+### #prefixIsHostmask()
 
-Parses the hostmask; returns an object with the nickname, username, and hostname of the hostmask.
+Returns `true` if the prefix of the message is a hostmask.
 
 ```JavaScript
-new Message("jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message").parseHostmask();
+var message1 = new Message(":jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message");
+var message2 = new Message(":test.services. PRIVMSG #Node.js :A message");
+
+console.log(message1.prefixIsHostmask());
+console.log(message2.prefixIsHostmask());
+```
+
+### #prefixIsServer()
+
+Returns `true` if the prefix of the message is a server.
+
+```JavaScript
+var message1 = new Message(":jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message");
+var message2 = new Message(":test.services. PRIVMSG #Node.js :A message");
+
+console.log(message1.prefixIsServer());
+console.log(message2.prefixIsServer());
+```
+
+### #parseHostmaskFromPrefix()
+
+Parses the hostmask from the message prefix. Object returned will contain keys for `nickname`, `username` and `hostname`.
+
+```JavaScript
+var message = new Message(":jamie!jamie@127.0.0.1 PRIVMSG #Node.js :A message");
+var hostmask = message.parseHostmaskFromPrefix();
 
 console.log(JSON.stringify(hostmask));
 ```

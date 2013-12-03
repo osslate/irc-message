@@ -6,7 +6,7 @@
   "scripts": {
     "prepublish": "coffee --bare --compile lib/*.coffee && coffee --bare --compile test/*.coffee",
     "build": "coffee --bare --compile lib/*.coffee && coffee --bare --compile test/*.coffee",
-    "test": "vows --spec test/*"
+    "test": "vows --spec test/*.js"
   },
   "repository": {
     "type": "git",

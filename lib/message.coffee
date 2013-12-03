@@ -88,14 +88,16 @@ class Message
     string = string.slice 0, -1
     return string
 
-  prefixIsUserHostmask: -> (@prefix.indexOf("@") isnt -1 and @prefix.indexOf("!") isnt -1)
-  prefixIsServerHostname: -> (@prefix.indexOf("@") is -1 and @prefix.indexOf("!") is -1 and @prefix.indexOf(".") isnt -1)
+  prefixIsHostmask: -> (@prefix.indexOf("@") isnt -1 and @prefix.indexOf("!") isnt -1)
+  prefixIsServer: -> (@prefix.indexOf("@") is -1 and @prefix.indexOf("!") is -1 and @prefix.indexOf(".") isnt -1)
   parseHostmaskFromPrefix: ->
-    [nickname, username, hostname] = @prefix.split /[!@]/
-    parsed =
-      nickname: nickname
-      username: username
-      hostname: hostname
-    parsed
+    if @prefixIsHostmask
+      [nickname, username, hostname] = @prefix.split /[!@]/
+      return (
+        nickname: nickname
+        username: username
+        hostname: hostname
+      )
+    else throw new Error "Prefix is not a parsable hostmask."
 
 exports = module.exports = Message
