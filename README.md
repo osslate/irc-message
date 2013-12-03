@@ -16,7 +16,7 @@ When a Message object is created, it contains the following properties:
 - `tags` - An object with any [IRCv3.2 message tags](http://ircv3.org/specification/message-tags-3.2), if present. Tags with no corresponding value are given a value of `true`.
 - `prefix` - A string with the message prefix.
 - `command` - A string with the message command.
-- `args` - An array with the message's arguments/parameters.
+- `params` - An array with the message's parameters.
 
 ## Installation
 
@@ -30,7 +30,7 @@ var Message = require("irc-message");
 var str = "@time=2013-06-30T23:59:60.419Z :jamie!jamie@127.0.0.1 PRIVMSG #Node.js :Hello! I was just  browsing for Node.js help, found this channel.";
 
 var parsed = new Message(str);
-console.log(parsed.command + " to " + message.args[0] + ": " + message.args[1]);
+console.log(parsed.command + " to " + message.params[0] + ": " + message.params[1]);
 ```
 
 ```CoffeeScript
@@ -39,12 +39,12 @@ Message = require "irc-message"
 str = "@time=2013-06-30T23:59:60.419Z :jamie!jamie@127.0.0.1 PRIVMSG #Node.js :Hello! I was just  browsing for Node.js help, found this channel."
 
 parsed = new Message(str);
-console.log "#{parsed.command} to #{message.args[0]}: #{message.args[1]}"
+console.log "#{parsed.command} to #{message.params[0]}: #{message.params[1]}"
 ```
 
 ## Utilities
 
-### Message#parseHostmask()
+### #parseHostmask()
 
 Parses the hostmask, return an object with the nickname, username, and hostname of the hostmask.
 

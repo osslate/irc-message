@@ -9,7 +9,7 @@ class Message
     @tags = {}
     @prefix = ""
     @command = ""
-    @args = []
+    @params = []
     position = 0
     nextspace = 0
 
@@ -48,17 +48,17 @@ class Message
     while position < line.length
       nextspace = line.indexOf " ", position
       if line.charAt(position) is ":"
-        @args.push line.slice position + 1
+        @params.push line.slice position + 1
         break
 
       if nextspace isnt -1
-        @args.push line.slice position, nextspace
+        @params.push line.slice position, nextspace
         position = nextspace + 1
         position++ while line.charAt(position) is " "
         continue
 
       if nextspace is -1
-        @args.push line.slice position
+        @params.push line.slice position
         break
     return
 
@@ -78,9 +78,9 @@ class Message
     if @command.length isnt 0
       string += "#{@command} "
 
-    if @args.length isnt 0
-      for arg in @args
-        if arg.indexOf " " isnt -1
+    if @params.length isnt 0
+      for param in @params
+        if param.indexOf " " isnt -1
           string += "#{arg} "
         else
           string += ":#{arg} "
