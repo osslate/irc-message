@@ -81,9 +81,9 @@ class Message
     if @params.length isnt 0
       for param in @params
         if param.indexOf " " isnt -1
-          string += "#{arg} "
+          string += "#{param} "
         else
-          string += ":#{arg} "
+          string += ":#{param} "
 
     string = string.slice 0, -1
     return string
