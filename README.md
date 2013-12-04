@@ -20,7 +20,7 @@ When a Message object is created, it contains the following properties:
 
 ## Installation
 
-`npm install irc-message`
+    npm install irc-message
 
 ## Usage
 
