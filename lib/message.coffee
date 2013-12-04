@@ -80,7 +80,7 @@ class Message
 
     if @params.length isnt 0
       for param in @params
-        if param.indexOf " " isnt -1
+        if param.indexOf(" ") is -1
           string += "#{param} "
         else
           string += ":#{param} "
