@@ -67,7 +67,7 @@ class Message
     if Object.keys(@tags).length isnt 0
       string += "@"
       for tag, value of @tags
-        if value isnt null
+        if value isnt true
           string += "#{tag}=#{value};"
         else string += "#{tag};"
       string = string.slice(0, -1) + " "
