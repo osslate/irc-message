@@ -38,6 +38,7 @@ class Message
     if nextspace is -1
       if line.length > position
         @command = line.slice(position)
+        return
       else return
 
     @command = line.slice(position, nextspace)
