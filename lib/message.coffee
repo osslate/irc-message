@@ -100,5 +100,8 @@ class Message
         hostname: hostname
       )
     else throw new Error "Prefix is not a parsable hostmask."
+  freeze: ->
+    Object.freeze(@params)
+    Object.freeze(@)
 
 exports = module.exports = Message
