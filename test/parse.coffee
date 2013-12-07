@@ -1,78 +1,86 @@
 Message = require "../"
 vows = require "vows"
 assert = require "assert"
+should = require("chai").should()
 
 vows.describe("irc-message parser/constructor").addBatch(
   "A parsed message":
-    "representing a PRIVMSG":
-      topic: new Message ":expr!textual@213.233.jgs.m PRIVMSG #launch :JeffA: go ahead and do another multi line message"
+    "with command only":
+      topic: new Message "foo"
+      "shouldn't have tags": (topic) ->
+        topic.tags.should.be.empty
+      "shouldn't have a prefix": (topic) ->
+        topic.prefix.should.be.empty
+      "should have a command of 'FOO'": (topic) ->
+        topic.command.should.equal "FOO"
+      "should have no parameters": (topic) ->
+        topic.params.should.be.empty
 
-      "has a prefix of 'expr!textual@213.233.jgs.m'": (topic) ->
-        assert.equal topic.prefix, "expr!textual@213.233.jgs.m"
-      "has a command of PRIVMSG": (topic) ->
-        assert.equal topic.command, "PRIVMSG"
-      "has a first parameter of '#launch'": (topic) ->
-        assert.equal topic.params[0], "#launch"
-      "has a second parameter of 'JeffA: go ahead and do another multi line message'": (topic) ->
-        assert.equal topic.params[1], "JeffA: go ahead and do another multi line message"
+    "with prerix, command":
+      topic: new Message ":test foo"
+      "shouldn't have tags": (topic) ->
+        topic.tags.should.be.empty
+      "should have a prefix of 'test'": (topic) ->
+        topic.prefix.should.equal "test"
+      "should have a command of 'FOO'": (topic) ->
+        topic.command.should.equal "FOO"
+      "should have no parameters": (topic) ->
+        topic.params.should.be.empty
 
-    "representing an RPL_WELCOME (001) message":
-      topic: new Message ":calvino.freenode.net 001 testnick :Welcome to the freenode Internet Relay Chat Network testnick"
+    "with prerix, command and trailing space":
+      topic: new Message ":test foo    "
+      "shouldn't have tags": (topic) ->
+        topic.tags.should.be.empty
+      "should have a prefix of 'test'": (topic) ->
+        topic.prefix.should.equal "test"
+      "should have a command of 'FOO'": (topic) ->
+        topic.command.should.equal "FOO"
+      "should have no parameters": (topic) ->
+        topic.params.should.be.empty
 
-      "has a prefix of 'calvino.freenode.net'": (topic) ->
-        assert.equal topic.prefix, "calvino.freenode.net"
-      "has a command of '001'": (topic) ->
-        assert.equal topic.command, "001"
-      "has a first parameter of 'testnick'": (topic) ->
-        assert.equal topic.params[0], "testnick"
-      "has a second parameter of 'Welcome to the freenode Internet Relay Chat Network testnick'": (topic) ->
-        assert.equal topic.params[1], "Welcome to the freenode Internet Relay Chat Network testnick"
+    "with prefix, command, middle, trailing parameter":
+      topic: new Message ":test!me@test.ing PRIVMSG #Test :This is a test"
+      "shouldn't have tags": (topic) ->
+        topic.tags.should.be.empty
+      "should have a prefix of 'test!me@test.ing'": (topic) ->
+        topic.prefix.should.equal "test!me@test.ing"
+      "should have a command of 'PRIVMSG'": (topic) ->
+        topic.command.should.equal "PRIVMSG"
+      "should have 2 parameters": (topic) ->
+        topic.params.should.have.length 2
+      "should have a first parameter of '#Test'": (topic) ->
+        topic.params[0].should.equal "#Test"
+      "should have a second parameter of 'This is a test'": (topic) ->
+        topic.params[1].should.equal "This is a test"
 
-    "with message-tags":
-      topic: new Message "@time=2013-06-30T23:59:60.419Z;test :test!test@127.0.0.1 SOMECMD :testing, param"
+    "with no prefix, command, one middle, trailing with spaces":
+      topic: new Message "PRIVMSG #foo :This is a test"
+      "shouldn't have tags": (topic) ->
+        topic.tags.should.be.empty
+      "shouldn't have a prefix": (topic) ->
+        topic.prefix.should.be.empty
+      "should have a command of 'PRIVMSG'": (topic) ->
+        topic.command.should.equal "PRIVMSG"
+      "should have 2 parameters": (topic) ->
+        topic.params.should.have.length 2
+      "should have a first parameter of '#foo": (topic) ->
+        topic.params[0].should.equal "#foo"
+      "should have a second parameter of 'This is a test'": (topic) ->
+        topic.params[1].should.equal "This is a test"
 
-      "has two tags": (topic) ->
-        assert.equal Object.keys(topic.tags).length, 2
-      "has a first tag of `time` with value '2013-06-30T23:59:60.419Z'": (topic) ->
-        assert.equal topic.tags.time, "2013-06-30T23:59:60.419Z"
-      "has a second tag of `test` with value `true`": (topic) ->
-        assert.equal topic.tags.test, true
-      "has a prefix of 'test!test@127.0.0.1'": (topic) ->
-        assert.equal topic.prefix, "test!test@127.0.0.1"
-      "has a command of 'SOMECMD'": (topic) ->
-        assert.equal topic.command, "SOMECMD"
-      "has one parameter": (topic) ->
-        assert.equal topic.params.length, 1
-      "has a first parameter of 'testing, param'": (topic) ->
-        assert.equal topic.params[0], "testing, param"
-
-    "with multiple parameters":
-      topic: new Message ":test!test@127.0.0.1 SOMECMD hello test multi param test test :hello, world!"
-
-      "has seven parameters": (topic) ->
-        assert.equal topic.params.length, 7
-
-    "with excess whitespace between parameters":
-      topic: new Message ":test!test@127.0.0.1 SOMECMD here    is   some   excess   whitespace   :in my command"
-
-      "has six parameters": (topic) ->
-        assert.equal topic.params.length, 6
-      "has no excess whitespace within the first five parameters": (topic) ->
-        for param in topic.params.slice(0, 5)
-          assert.equal param.indexOf(" "), -1
-
-    "with no prefix":
-      topic: new Message "SOMECMD :testing, param"
-
-      "has a prefix length of 0": (topic) ->
-        assert.equal topic.prefix.length, 0
-
-    "with tags and no prefix":
-      topic: new Message "@time=2013-06-30T23:59:60.419Z;test SOMECMD :testing, param"
-
-      "has two tags": (topic) ->
-        assert.equal Object.keys(topic.tags).length, 2
-      "has a prefix length of 0": (topic) ->
-        assert.equal topic.prefix.length, 0
+    "prefix, command, one middle, trailing with spaces":
+      topic: new Message ":test PRIVMSG foo :A string   with spaces   "
+      "shouldn't have tags": (topic) ->
+        topic.tags.should.be.empty
+      "should have a prefix of 'test'": (topic) ->
+        topic.prefix.should.equal "test"
+      "should have a command of 'PRIVMSG'": (topic) ->
+        topic.command.should.equal "PRIVMSG"
+      "should have 2 parameters": (topic) ->
+        topic.params.should.have.length 2
+      "should have have a first parameter of 'foo'": (topic) ->
+        topic.params[0].should.equal "foo"
+      "should have a second parameter of 'A string   with spaces   '": (topic) ->
+        topic.params[1].should.equal "A string   with spaces   "
 
 ).export module
