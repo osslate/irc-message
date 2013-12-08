@@ -16,7 +16,7 @@ vows.describe("Message parsing").addBatch(
       "should have no parameters": (topic) ->
         topic.params.should.be.empty
 
-    "with prerix, command":
+    "with prefix, command":
       topic: new Message ":test FOO"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
@@ -27,7 +27,7 @@ vows.describe("Message parsing").addBatch(
       "should have no parameters": (topic) ->
         topic.params.should.be.empty
 
-    "with prerix, command and trailing space":
+    "with prefix, command and trailing space":
       topic: new Message ":test FOO    "
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
@@ -182,4 +182,29 @@ vows.describe("Message parsing").addBatch(
         topic.params[0].should.equal "#fo:oo"
       "should have second parameter of 'This is a test'": (topic) ->
         topic.params[1].should.equal "This is a test"
+
+    "with tags, prefix, command, middle params, trailing params":
+      topic: new Message "@test=super;single :test!me@test.ing FOO bar baz quux :This is a test"
+      "should have two tags": (topic) ->
+        Object.keys(topic.tags).should.have.length 2
+      "should have two tags of 'test' and 'single'": (topic) ->
+        topic.tags.should.have.keys ["test", "single"]
+      "should have first tag value of 'super'": (topic) ->
+        topic.tags["test"].should.equal "super"
+      "should have second tag value of literal 'true'": (topic) ->
+        topic.tags["single"].should.equal true
+      "should have a prefix of 'test!me@test.ing'": (topic) ->
+        topic.prefix.should.equal "test!me@test.ing"
+      "should have a command of 'FOO'": (topic) ->
+        topic.command.should.equal "FOO"
+      "should have 4 parameters": (topic) ->
+        topic.params.should.have.length 4
+      "should have first parameter of 'bar'": (topic) ->
+        topic.params[0].should.equal "bar"
+      "should have second parameter of 'baz'": (topic) ->
+        topic.params[1].should.equal "baz"
+      "should have third parameter of 'quux'": (topic) ->
+        topic.params[2].should.equal "quux"
+      "should have a fourth parameter of 'This is a test'": (topic) ->
+        topic.params[3].should.equal "This is a test"
 ).export module
