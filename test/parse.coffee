@@ -6,7 +6,7 @@ should = require("chai").should()
 vows.describe("Message parsing").addBatch(
   "A parsed message":
     "with command only":
-      topic: new Message "FOO"
+      topic: Message "FOO"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "shouldn't have a prefix": (topic) ->
@@ -17,7 +17,7 @@ vows.describe("Message parsing").addBatch(
         topic.params.should.be.empty
 
     "with prefix, command":
-      topic: new Message ":test FOO"
+      topic: Message ":test FOO"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "should have a prefix of 'test'": (topic) ->
@@ -28,7 +28,7 @@ vows.describe("Message parsing").addBatch(
         topic.params.should.be.empty
 
     "with prefix, command and trailing space":
-      topic: new Message ":test FOO    "
+      topic: Message ":test FOO    "
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "should have a prefix of 'test'": (topic) ->
@@ -39,7 +39,7 @@ vows.describe("Message parsing").addBatch(
         topic.params.should.be.empty
 
     "with prefix, command, middle, trailing parameter":
-      topic: new Message ":test!me@test.ing PRIVMSG #Test :This is a test"
+      topic: Message ":test!me@test.ing PRIVMSG #Test :This is a test"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "should have a prefix of 'test!me@test.ing'": (topic) ->
@@ -54,7 +54,7 @@ vows.describe("Message parsing").addBatch(
         topic.params[1].should.equal "This is a test"
 
     "with no prefix, command, one middle, trailing with spaces":
-      topic: new Message "PRIVMSG #foo :This is a test"
+      topic: Message "PRIVMSG #foo :This is a test"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "shouldn't have a prefix": (topic) ->
@@ -69,7 +69,7 @@ vows.describe("Message parsing").addBatch(
         topic.params[1].should.equal "This is a test"
 
     "with prefix, command, one middle, trailing with spaces":
-      topic: new Message ":test PRIVMSG foo :A string   with spaces   "
+      topic: Message ":test PRIVMSG foo :A string   with spaces   "
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "should have a prefix of 'test'": (topic) ->
@@ -84,7 +84,7 @@ vows.describe("Message parsing").addBatch(
         topic.params[1].should.equal "A string   with spaces   "
 
     "with extraneous spaces":
-      topic: new Message ":test     PRIVMSG    foo     :bar"
+      topic: Message ":test     PRIVMSG    foo     :bar"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "should have a prefix of 'test'": (topic) ->
@@ -99,7 +99,7 @@ vows.describe("Message parsing").addBatch(
         topic.params[1].should.equal "bar"
 
     "with multiple middle params, prefix":
-      topic: new Message ":test FOO bar baz quux"
+      topic: Message ":test FOO bar baz quux"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "should have a prefix of 'test'": (topic) ->
@@ -116,7 +116,7 @@ vows.describe("Message parsing").addBatch(
         topic.params[2].should.equal "quux"
 
     "with multiple middle params, no prefix":
-      topic: new Message "FOO bar baz quux"
+      topic: Message "FOO bar baz quux"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "shouldn't have a prefix": (topic) ->
@@ -133,7 +133,7 @@ vows.describe("Message parsing").addBatch(
         topic.params[2].should.equal "quux"
 
     "with multiple middle params, extraneous spaces":
-      topic: new Message "FOO   bar   baz   quux"
+      topic: Message "FOO   bar   baz   quux"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "shouldn't have a prefix": (topic) ->
@@ -150,7 +150,7 @@ vows.describe("Message parsing").addBatch(
         topic.params[2].should.equal "quux"
 
     "with multiple middle params, trailing params":
-      topic: new Message "FOO bar baz quux :This is a test"
+      topic: Message "FOO bar baz quux :This is a test"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "shouldn't have a prefix": (topic) ->
@@ -169,7 +169,7 @@ vows.describe("Message parsing").addBatch(
         topic.params[3].should.equal "This is a test"
 
     "with prefix, middle params containing colons":
-      topic: new Message ":test PRIVMSG #fo:oo :This is a test"
+      topic: Message ":test PRIVMSG #fo:oo :This is a test"
       "shouldn't have tags": (topic) ->
         topic.tags.should.be.empty
       "should have a prefix of 'test'": (topic) ->
@@ -184,7 +184,7 @@ vows.describe("Message parsing").addBatch(
         topic.params[1].should.equal "This is a test"
 
     "with tags, prefix, command, middle params, trailing params":
-      topic: new Message "@test=super;single :test!me@test.ing FOO bar baz quux :This is a test"
+      topic: Message "@test=super;single :test!me@test.ing FOO bar baz quux :This is a test"
       "should have two tags": (topic) ->
         Object.keys(topic.tags).should.have.length 2
       "should have two tags of 'test' and 'single'": (topic) ->

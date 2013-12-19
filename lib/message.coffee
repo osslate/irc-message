@@ -4,7 +4,7 @@
   Licensed under the BSD 2-Clause License (FreeBSD) - see LICENSE.md.
 ###
 
-class Message
+class IRCMessage
   constructor: (line) ->
     @tags = {}
     @prefix = ""
@@ -15,7 +15,7 @@ class Message
 
     if line.charAt(0) is "@"
       nextspace = line.indexOf " "
-      throw new Error "Expected prefix; malformed IRC message." if nextspace is -1
+      return new Object if nextspace is -1
       rawTags = line.slice(1, nextspace).split ";"
 
       for tag in rawTags
@@ -28,7 +28,7 @@ class Message
 
     if line.charAt(position) is ":"
       nextspace = line.indexOf " ", position
-      throw new Error "Expected command; malformed IRC message." if nextspace is -1
+      return new Object if nextspace is -1
       @prefix = line.slice position + 1, nextspace
       position = nextspace + 1
       position++ while line.charAt(position) is " "
@@ -100,5 +100,12 @@ class Message
         hostname: hostname
       )
     else throw new Error "Prefix is not a parsable hostmask."
+
+Message = (line) ->
+  message = new IRCMessage line
+  if Object.getOwnPropertyNames(message).length == 0
+    return null
+  else
+    return message
 
 exports = module.exports = Message
