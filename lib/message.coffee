@@ -92,14 +92,15 @@ class IRCMessage
   prefixIsHostmask: -> (@prefix.indexOf("@") isnt -1 and @prefix.indexOf("!") isnt -1)
   prefixIsServer: -> (@prefix.indexOf("@") is -1 and @prefix.indexOf("!") is -1 and @prefix.indexOf(".") isnt -1)
   parseHostmaskFromPrefix: ->
-    if @prefixIsHostmask
+    if @prefixIsHostmask()
       [nickname, username, hostname] = @prefix.split /[!@]/
       return (
         nickname: nickname
         username: username
         hostname: hostname
       )
-    else throw new Error "Prefix is not a parsable hostmask."
+    else
+      return null
 
 Message = (line) ->
   message = new IRCMessage line
