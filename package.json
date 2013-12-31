@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "vows": "0.7.x",
-    "chai": "1.8.x",
+    "chai": "1.8.x"
   },
   "keywords": [
     "irc",
