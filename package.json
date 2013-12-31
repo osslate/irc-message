@@ -4,7 +4,6 @@
   "description": "A blazing fast parser for IRC messages.",
   "main": "index.js",
   "scripts": {
-    "prepublish": "coffee --bare --compile test/*.coffee",
     "test": "vows --spec test/*.js"
   },
   "repository": {
@@ -14,7 +13,6 @@
   "devDependencies": {
     "vows": "0.7.x",
     "chai": "1.8.x",
-    "coffee-script": "1.6.3"
   },
   "keywords": [
     "irc",
