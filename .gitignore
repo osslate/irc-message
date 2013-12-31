@@ -1,4 +1,2 @@
 node_modules/
 *.tgz
-lib/*.coffee
-test/*.js
