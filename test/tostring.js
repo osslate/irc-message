@@ -45,6 +45,13 @@ vows.describe("Converting parsed messages to strings").addBatch({
             "should return '@test=super;single :test!me@test.ing FOO bar baz quux :This is a test'": function(topic) {
                 return topic.should.equal("@test=super;single :test!me@test.ing FOO bar baz quux :This is a test");
             }
+        },
+        "smiley face": {
+            topic: (ircmessage.parseMessage("PRIVMSG #smiley-test ::)")).toString(),
+
+            "should return 'PRIVMSG #smiley-test ::)": function(topic) {
+                return topic.should.equal("PRIVMSG #smiley-test ::)");
+            }
         }
     }
 }).export(module);
