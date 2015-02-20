@@ -25,5 +25,9 @@
   "bugs": {
     "url": "https://github.com/expr/irc-message/issues"
   },
-  "homepage": "https://github.com/expr/irc-message"
+  "homepage": "https://github.com/expr/irc-message",
+  "dependencies": {
+    "split2": "^0.2.1",
+    "through2": "^0.6.3"
+  }
 }
