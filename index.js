@@ -1,5 +1,6 @@
 var split2 = require('split2')
 var through2 = require('through2')
+var parsePrefix = require('irc-prefix-parser')
 
 var parseMessage = function(data) {
     var message = {
@@ -128,6 +129,7 @@ var parseMessage = function(data) {
 var parserStream = function(options) {
     var options = options || {}
     var convertTimestamps = options.convertTimestamps || false
+    var parsePrefix = options.parsePrefix || false
 
     var split = split2()
     var parser = through2.obj(function(chunk, encoding, done) {
@@ -140,6 +142,10 @@ var parserStream = function(options) {
             var epoch = Date.parse(timestamp)
 
             parsed.tags.time = new Date(epoch)
+        }
+
+        if (parsePrefix) {
+            parsed.prefix = parsePrefix(parsed.prefix)
         }
 
         if (parsed === null) {
