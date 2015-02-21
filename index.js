@@ -1,6 +1,6 @@
 var through = require('through2')
 var parsePrefix = require('irc-prefix-parser')
-var iso8601 = require('iso8601')
+var iso8601 = require('iso8601-convert')
 
 var parse = function(data) {
     var message = {
@@ -145,16 +145,19 @@ var createStream = function(options) {
 
             // support for IRCv3.2 server-time spec
             var timestamp = parsed.tags.time
+
             if (timestamp && convertTimestamps) {
-                parsed.tags.time = iso8601.toDate(timestamp)
+                var converted = iso8601.toDate(timestamp)
+                parsed.tags.time = (converted) ? converted : new Date(NaN)
             }
 
+            //
             if (shouldParsePrefix) {
                 parsed.prefix = parsePrefix(parsed.prefix)
             }
 
             if (parsed === null) {
-                this.emit('error', new Error('invalid IRC message'))
+                this.emit('error', new Error('Invalid IRC message'))
             }
 
             this.push(parsed)

@@ -10,10 +10,6 @@
     "type": "git",
     "url": "https://github.com/expr/irc-message.git"
   },
-  "devDependencies": {
-    "vows": "0.7.x",
-    "chai": "1.8.x"
-  },
   "keywords": [
     "irc",
     "message",
@@ -27,8 +23,11 @@
   },
   "homepage": "https://github.com/expr/irc-message",
   "dependencies": {
-    "iso8601": "^1.1.1",
+    "iso8601-convert": "^1.0.0",
     "through2": "^0.6.3",
     "irc-prefix-parser": "^1.0.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0"
   }
 }
