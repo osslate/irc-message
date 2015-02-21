@@ -146,15 +146,15 @@ describe('#parserStream()', function() {
         stream.write('@time=2012-05-21T23:32:12.419Z :some@user PRIVMSG #t :hi\r\n')
     })
 
-    it('doesn\'t choke on leap seconds', function(done) {
+    it('returns invalid date with bad time tag', function(done) {
         var stream = ircMessage.createStream({ convertTimestamps: true })
 
         stream.once('data', function(m) {
-            assert.ok(m.tags.time instanceof Date)
+            assert.equal(m.tags.time.toString(), 'Invalid Date')
             done()
         })
 
-        stream.write('@time=2012-06-30T23:59:60.419Z :some@user PRIVMSG #t :hi\r\n')
+        stream.write('@time=notvalid :some@user PRIVMSG #t :hi\r\n')
     })
 
     it('converts the prefix to an object', function(done) {
