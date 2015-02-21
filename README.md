@@ -11,7 +11,7 @@ irc-message provides an object stream capable of parsing [RFC1459-compliant IRC 
 
 ### `createStream(options)`
 
-Factory function that returns an object stream, taking in `Buffer`s/`String`s of IRC data (delimited with CRLF sequences) and pushing objects containing the following keys:
+Returns an object stream, taking in `Buffer`s/`String`s of raw IRC data. Data should not be line-buffered, this stream handles splitting and buffering automatically. and pushing objects containing the following keys.
 
 * `raw` - unparsed IRC message (string)
 * `tags` - IRCv3 message tags
