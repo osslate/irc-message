@@ -3,10 +3,10 @@ var through2 = require('through2')
 
 var parseMessage = function(data) {
     var message = {
-    	tags: {},
-    	prefix: null,
-    	command: null,
-    	params: []
+        tags: {},
+        prefix: null,
+        command: null,
+        params: []
     }
 
     // position and nextspace are used by the parser as a reference.
@@ -126,23 +126,24 @@ var parseMessage = function(data) {
 }
 
 var parserStream = function() {
-	var split = split2()
-	var parser = through2.obj(function(chunk, encoding, done) {
-		var parsed = parseMessage(chunk.toString())
+    var split = split2()
+    var parser = through2.obj(function(chunk, encoding, done) {
 
-		if (parsed === null) {
-			this.emit('error', new Error('invalid IRC message'))
-		}
+        var parsed = parseMessage(chunk.toString())
 
-		this.push(parsed)
+        if (parsed === null) {
+            this.emit('error', new Error('invalid IRC message'))
+        }
 
-		done()
-	})
+        this.push(parsed)
 
-	return split.pipe(parser)
+        done()
+    })
+
+    return split.pipe(parser)
 }
 
 module.exports = {
-	parseMessage: parseMessage,
-	parserStream: parserStream
+    parseMessage: parseMessage,
+    parserStream: parserStream
 }
