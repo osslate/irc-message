@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/expr/irc-message",
   "dependencies": {
-    "split2": "^0.2.1",
+    "iso8601": "^1.1.1",
     "through2": "^0.6.3"
   }
 }

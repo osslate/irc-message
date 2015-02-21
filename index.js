@@ -1,8 +1,8 @@
-var split2 = require('split2')
-var through2 = require('through2')
+var through = require('through2')
 var parsePrefix = require('irc-prefix-parser')
+var iso8601 = require('iso8601')
 
-var parseMessage = function(data) {
+var parse = function(data) {
     var message = {
         tags: {},
         prefix: null,
@@ -127,41 +127,46 @@ var parseMessage = function(data) {
     return message
 }
 
-var parserStream = function(options) {
+var createStream = function(options) {
     var options = options || {}
     var convertTimestamps = options.convertTimestamps || false
-    var parsePrefix = options.parsePrefix || false
+    var shouldParsePrefix = options.parsePrefix || false
+    var buffer = ''
 
-    var split = split2()
-    var parser = through2.obj(function(chunk, encoding, done) {
+    var stream = through.obj(function(chunk, encoding, done) {
 
-        var parsed = parseMessage(chunk.toString())
-        var timestamp = parsed.tags.time
+        buffer += chunk.toString()
+        messages = buffer.split(/\r\n/)
+        buffer = messages.pop()
 
-        // support for IRCv3.2 server-time spec
-        if (timestamp && convertTimestamps) {
-            var epoch = Date.parse(timestamp)
+        for (var i = 0; i < messages.length; i++) {
+            var message = messages[i]
+            var parsed = parse(message)
 
-            parsed.tags.time = new Date(epoch)
+            // support for IRCv3.2 server-time spec
+            var timestamp = parsed.tags.time
+            if (timestamp && convertTimestamps) {
+                parsed.tags.time = iso8601.toDate(timestamp)
+            }
+
+            if (shouldParsePrefix) {
+                parsed.prefix = parsePrefix(parsed.prefix)
+            }
+
+            if (parsed === null) {
+                this.emit('error', new Error('invalid IRC message'))
+            }
+
+            this.push(parsed)
         }
-
-        if (parsePrefix) {
-            parsed.prefix = parsePrefix(parsed.prefix)
-        }
-
-        if (parsed === null) {
-            this.emit('error', new Error('invalid IRC message'))
-        }
-
-        this.push(parsed)
 
         done()
     })
 
-    return split.pipe(parser)
+    return stream
 }
 
 module.exports = {
-    parseMessage: parseMessage,
-    parserStream: parserStream
+    parse: parse,
+    createStream: createStream
 }
