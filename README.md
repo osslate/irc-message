@@ -29,7 +29,7 @@ var parserStream = require('irc-message').parserStream
 net.connect(6667, 'irc.freenode.net')
     .pipe(parserStream())
     .on('data', function(message) {
-        console.log(JSON.stringify(message))
+        console.log(message)
     })
 ```
 
