@@ -73,9 +73,10 @@ var parseMessage = function(data) {
     if (nextspace === -1) {
         if (data.length > position) {
             message.command = data.slice(position)
+            return message
         }
 
-        return message
+        return null
     }
 
     // Else, the command is the current position up to the next space. After
