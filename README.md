@@ -11,7 +11,7 @@ irc-message provides an object stream capable of parsing [RFC1459-compliant IRC 
 
 ### `createStream(options)`
 
-Factory function that returns an object stream, taking in `Buffer`s/`String`s of IRC data and pushing objects containing four keys:
+Factory function that returns an object stream, taking in `Buffer`s/`String`s of IRC data (delimited with CRLF sequences) and pushing objects containing four keys:
 
 * `tags` - IRCv3 message tags
 * `prefix` - message prefix/source
@@ -36,7 +36,7 @@ net.connect(6667, 'irc.freenode.net')
 
 ### `parse(data)`
 
-You can also access the message parser directly. The parser function expects a string without any CRLF sequences.
+You can also access the message parser directly. The parser function expects a string without any CRLF sequences. If the string is malformed, `null` is returned. Otherwise, an object representing the message is returned (see `createStream()` for format).
 
 ```js
 var parse = require('irc-message').parse
