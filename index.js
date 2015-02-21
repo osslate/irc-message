@@ -4,6 +4,7 @@ var iso8601 = require('iso8601-convert')
 
 var parse = function(data) {
     var message = {
+        raw: data,
         tags: {},
         prefix: null,
         command: null,

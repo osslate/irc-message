@@ -11,8 +11,9 @@ irc-message provides an object stream capable of parsing [RFC1459-compliant IRC 
 
 ### `createStream(options)`
 
-Factory function that returns an object stream, taking in `Buffer`s/`String`s of IRC data (delimited with CRLF sequences) and pushing objects containing four keys:
+Factory function that returns an object stream, taking in `Buffer`s/`String`s of IRC data (delimited with CRLF sequences) and pushing objects containing the following keys:
 
+* `raw` - unparsed IRC message (string)
 * `tags` - IRCv3 message tags
 * `prefix` - message prefix/source
 * `command` - message command/verb
@@ -43,6 +44,7 @@ var parse = require('irc-message').parse
 
 console.log(parse(':hello!sir@madam PRIVMSG #test :Hello, world!'))
 /* { 
+ *   raw: ':hello!sir@madam PRIVMSG #test :Hello, world!',
  *   tags: {}, 
  *   prefix: 'hello!sir@madam', 
  *   command: 'PRIVMSG',

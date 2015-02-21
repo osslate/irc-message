@@ -89,8 +89,9 @@ describe('#parse()', function() {
         }
 
         Object.keys(tests).forEach(function(test) {
-            var parsed = parse(test)
             var expected = tests[test]
+            expected.raw = test
+            var parsed = parse(test)
             assert.deepEqual(parsed, expected)
         })
     })
@@ -161,7 +162,7 @@ describe('#parserStream()', function() {
         var stream = ircMessage.createStream({ parsePrefix: true })
 
         stream.once('data', function(m) {
-            assert.ok(typeof m.prefix.input === 'string')
+            assert.equal(m.prefix.isServer, false)
             done()
         })
 
