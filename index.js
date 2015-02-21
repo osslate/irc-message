@@ -125,11 +125,22 @@ var parseMessage = function(data) {
     return message
 }
 
-var parserStream = function() {
+var parserStream = function(options) {
+    var options = options || {}
+    var convertTimestamps = options.convertTimestamps || false
+
     var split = split2()
     var parser = through2.obj(function(chunk, encoding, done) {
 
         var parsed = parseMessage(chunk.toString())
+        var timestamp = parsed.tags.time
+
+        // support for IRCv3.2 server-time spec
+        if (timestamp && convertTimestamps) {
+            var epoch = Date.parse(timestamp)
+
+            parsed.tags.time = new Date(epoch)
+        }
 
         if (parsed === null) {
             this.emit('error', new Error('invalid IRC message'))
