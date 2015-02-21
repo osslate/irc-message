@@ -1,10 +1,10 @@
 {
   "name": "irc-message",
   "version": "2.0.1",
-  "description": "A blazing fast parser for IRC messages.",
+  "description": "Performant, streaming IRC message parser",
   "main": "index.js",
   "scripts": {
-    "test": "vows --spec test/*.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -28,6 +28,7 @@
   "homepage": "https://github.com/expr/irc-message",
   "dependencies": {
     "iso8601": "^1.1.1",
-    "through2": "^0.6.3"
+    "through2": "^0.6.3",
+    "irc-prefix-parser": "^1.0.0"
   }
 }
