@@ -1,5 +1,5 @@
 # irc-message [![Build Status](https://travis-ci.org/expr/irc-message.svg?branch=master)](https://travis-ci.org/expr/irc-message)
-> Streaming IRC message parser
+> Performant, streaming IRC message parser
 
 irc-message provides an object stream capable of parsing [RFC1459-compliant IRC messages](http://tools.ietf.org/html/rfc2812#section-2.3.1), with support for [IRCv3 message tags](https://github.com/ircv3/ircv3-specifications/blob/master/specification/message-tags-3.2.md). This also includes server-to-server protocols such as TS6, Spanning Tree, and the UnrealIRCd protocol.
 
@@ -9,7 +9,7 @@ irc-message provides an object stream capable of parsing [RFC1459-compliant IRC 
 
 ## Usage
 
-### `parserStream(options)`
+### `createStream(options)`
 
 Factory function that returns an object stream, taking in `Buffer`s/`String`s of IRC data and pushing objects containing four keys:
 
@@ -25,10 +25,10 @@ Optional `options` object supports
 
 ```js
 var net = require('net')
-var parserStream = require('irc-message').parserStream
+var ircMsg = require('irc-message')
 
 net.connect(6667, 'irc.freenode.net')
-    .pipe(parserStream())
+    .pipe(ircMsg.createStream())
     .on('data', function(message) {
         console.log(message)
     })
