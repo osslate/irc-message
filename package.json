@@ -1,6 +1,6 @@
 {
   "name": "irc-message",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Performant, streaming IRC message parser",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   "dependencies": {
     "iso8601-convert": "^1.0.0",
     "through2": "^0.6.3",
-    "irc-prefix-parser": "^1.0.0"
+    "irc-prefix-parser": "^1.0.1"
   },
   "devDependencies": {
     "mocha": "^2.1.0"
