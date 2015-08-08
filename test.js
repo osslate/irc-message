@@ -168,4 +168,14 @@ describe('#parserStream()', function() {
 
         stream.write(':some!one@host PRIVMSG #t :hi\r\n')
     })
+
+    it('handles null values correctly', function(done) {
+        var stream = ircMessage.createStream()
+
+        stream.on('error', function() {
+            done()
+        })
+
+        stream.write(':::\r\n')
+    })
 })

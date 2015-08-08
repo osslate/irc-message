@@ -1,6 +1,6 @@
 {
   "name": "irc-message",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Performant, streaming IRC message parser",
   "main": "index.js",
   "scripts": {

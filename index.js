@@ -144,6 +144,11 @@ var createStream = function(options) {
             var message = messages[i]
             var parsed = parse(message)
 
+            if (parsed === null) {
+                this.emit('error', new Error('Invalid IRC message'))
+                continue
+            }
+
             // support for IRCv3.2 server-time spec
             var timestamp = parsed.tags.time
 
@@ -155,10 +160,6 @@ var createStream = function(options) {
             //
             if (shouldParsePrefix) {
                 parsed.prefix = parsePrefix(parsed.prefix)
-            }
-
-            if (parsed === null) {
-                this.emit('error', new Error('Invalid IRC message'))
             }
 
             this.push(parsed)
